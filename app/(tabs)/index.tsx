@@ -7,6 +7,7 @@ import { ThemedView } from '@/components/ThemedView';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { FAB } from 'react-native-paper';
 import { useThemeColor } from '@/hooks/useThemeColor';
+import { ThemedFAB } from '@/components/ThemedFAB';
 
 export default function HomeScreen() {
   return (
@@ -17,7 +18,7 @@ export default function HomeScreen() {
             <ThemedText type="title">Tarefas</ThemedText>
           </View>
           <ThemedView style={styles.container}>
-            <FAB
+            <ThemedFAB
               icon="plus"
               style={styles.fab}
               onPress={() => console.log('Pressed')}
@@ -103,7 +104,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     margin: 16,
     right: 0,
-    bottom: 0,
-    color: useThemeColor({}, 'fabBackground')
+    bottom: 0
+    //color: useThemeColor({}, 'fabBackground')
   }
 });
