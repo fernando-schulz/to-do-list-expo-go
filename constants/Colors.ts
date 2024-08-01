@@ -17,7 +17,13 @@ export const Colors = {
     tabIconDefault: '#687076',
     tabIconSelected: tintColorLight,
     fabBackground: tintColorLight,
-    fabIconColor: secondaryColorLight
+    fabIconColor: secondaryColorLight,
+    //TextInput
+    TextInputBackground: 'rgba(0, 0, 0, 0.5)',
+    //TextInputUnderlineColor: tintColorLight,
+    TextInputTextColor: '#11181C',
+    TextInputActiveUnderlineColor: tintColorLight,
+    TextInputPlaceholderTextColor: '#687076',
   },
   dark: {
     text: '#ECEDEE',
@@ -27,6 +33,12 @@ export const Colors = {
     tabIconDefault: '#9BA1A6',
     tabIconSelected: tintColorDark,
     fabBackground: tintColorDark,
-    fabIconColor: secondaryColorDark
+    fabIconColor: secondaryColorDark,
+    //TextInput
+    TextInputBackground: 'rgba(255, 255, 255, 0.5)',
+    //TextInputUnderlineColor: 'red',
+    TextInputTextColor: '#11181C',
+    TextInputActiveUnderlineColor: tintColorLight,
+    TextInputPlaceholderTextColor: '#687076',
   },
 };

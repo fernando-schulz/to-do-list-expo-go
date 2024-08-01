@@ -1,17 +1,33 @@
-import { Image, StyleSheet, Platform, ImageBackground, View } from 'react-native';
+import { Image, StyleSheet, ImageBackground, View, Modal } from 'react-native';
 
 import { HelloWave } from '@/components/HelloWave';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { FAB } from 'react-native-paper';
-import { useThemeColor } from '@/hooks/useThemeColor';
 import { ThemedFAB } from '@/components/ThemedFAB';
+import { useState } from 'react';
+import { Button, TextInput } from 'react-native-paper';
+import { ThemedTextInput } from '@/components/ThemedTextInput';
 
 export default function HomeScreen() {
+
+  const [visibleAddTask, setVisibleAddTask] = useState(false);
+
   return (
     <>
+      {
+        visibleAddTask && (
+          <Modal animationType='slide' visible={visibleAddTask} transparent={true}>
+            <View style={styles.modalBackground} />
+            <ThemedView style={{ flex: 1 }}>
+              <ThemedTextInput label='Título' placeholder='Título' style={{ marginBottom: 10 }} />
+              <ThemedTextInput label='Descrição' placeholder='Descrição' />
+              <Button onPress={() => setVisibleAddTask(false)}>Fechar</Button>
+            </ThemedView>
+          </Modal>
+        )
+      }
       <ImageBackground source={require('@/assets/images/partial-react-logo.png')} style={styles.imageBackground}>
         <SafeAreaView style={styles.safeAreaView} edges={['top']}>
           <View style={styles.viewRow}>
@@ -21,7 +37,7 @@ export default function HomeScreen() {
             <ThemedFAB
               icon="plus"
               style={styles.fab}
-              onPress={() => console.log('Pressed')}
+              onPress={() => setVisibleAddTask(true)}
             />
           </ThemedView>
         </SafeAreaView>
@@ -71,26 +87,12 @@ export default function HomeScreen() {
 }
 
 const styles = StyleSheet.create({
-  // titleContainer: {
-  //   flexDirection: 'row',
-  //   alignItems: 'center',
-  //   gap: 8,
-  // },
-  // stepContainer: {
-  //   gap: 8,
-  //   marginBottom: 8,
-  // },
   safeAreaView: {
     flex: 1
   },
   imageBackground: {
     flex: 1,
     padding: 12,
-    // height: 178,
-    // width: 290,
-    // bottom: 0,
-    // left: 0,
-    // position: 'absolute',
   },
   container: {
     flex: 1,
@@ -105,6 +107,11 @@ const styles = StyleSheet.create({
     margin: 16,
     right: 0,
     bottom: 0
-    //color: useThemeColor({}, 'fabBackground')
-  }
+  },
+  modalBackground: {
+    flex: 2,
+    backgroundColor: 'rgba(0, 0, 0, 0.4)',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
 });
