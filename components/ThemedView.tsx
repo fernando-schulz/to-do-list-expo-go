@@ -5,10 +5,14 @@ import { useThemeColor } from '@/hooks/useThemeColor';
 export type ThemedViewProps = ViewProps & {
   lightColor?: string;
   darkColor?: string;
+  secondaryView?: boolean;
 };
 
-export function ThemedView({ style, lightColor, darkColor, ...otherProps }: ThemedViewProps) {
+export function ThemedView({ style, lightColor, darkColor, secondaryView, ...otherProps }: ThemedViewProps) {
   const backgroundColor = useThemeColor({ light: lightColor, dark: darkColor }, 'background');
+  const backgroundSecondaryColor = useThemeColor({ light: lightColor, dark: darkColor }, 'secondaryBackground');
 
-  return <View style={[{ backgroundColor }, style]} {...otherProps} />;
+  const appliedBackgroundColor = secondaryView ? backgroundSecondaryColor : backgroundColor;
+
+  return <View style={[{ backgroundColor: appliedBackgroundColor }, style]} {...otherProps} />;
 }

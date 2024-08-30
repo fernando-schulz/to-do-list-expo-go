@@ -7,28 +7,26 @@ export type ThemedTextInputProps = TextInputProps & {
 };
 
 export function ThemedTextInput({ style, lightColor, darkColor, ...props }: ThemedTextInputProps) {
-    //style
     const backgroundColor = useThemeColor({ light: lightColor, dark: darkColor }, 'TextInputBackground');
     const textColor = useThemeColor({ light: lightColor, dark: darkColor }, 'TextInputTextColor');
-    const activeUnderlineColor = useThemeColor({ light: lightColor, dark: darkColor }, 'TextInputActiveUnderlineColor');
-    const placeholderTextColor = useThemeColor({ light: lightColor, dark: darkColor }, 'TextInputPlaceholderTextColor');
-    //const underlineColor = useThemeColor({ light: lightColor, dark: darkColor }, 'TextInputUnderlineColor');
+    const activeOutlineColor = useThemeColor({ light: lightColor, dark: darkColor }, 'TextInputActiveOutlineColor');
+    const outlineColor = useThemeColor({ light: lightColor, dark: darkColor }, 'TextInputOutlineColor');
 
     const customTheme = {
-        ...DefaultTheme,
         colors: {
-            ...DefaultTheme.colors,
-            onSurfaceVariant: 'red',
-        },
+            onSurfaceVariant: outlineColor
+        }
     };
 
     return (
         <TextInput
+            mode="outlined"
             textColor={textColor}
-            activeUnderlineColor={activeUnderlineColor}
-            placeholderTextColor={placeholderTextColor}
-            theme={customTheme}
+            activeOutlineColor={activeOutlineColor}
+            outlineColor={outlineColor}
             style={[{ backgroundColor: backgroundColor }, style]}
+            theme={customTheme}
+            //outlineStyle={{ borderColor: outlineColor }}
             {...props}
         />
     );

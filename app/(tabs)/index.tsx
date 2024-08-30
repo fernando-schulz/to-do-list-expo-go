@@ -7,8 +7,9 @@ import { ThemedView } from '@/components/ThemedView';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { ThemedFAB } from '@/components/ThemedFAB';
 import { useState } from 'react';
-import { Button, TextInput } from 'react-native-paper';
+import { Button } from 'react-native-paper';
 import { ThemedTextInput } from '@/components/ThemedTextInput';
+import { ThemedButton } from '@/components/ThemedButton';
 
 export default function HomeScreen() {
 
@@ -20,75 +21,36 @@ export default function HomeScreen() {
         visibleAddTask && (
           <Modal animationType='slide' visible={visibleAddTask} transparent={true}>
             <View style={styles.modalBackground} />
-            <ThemedView style={{ flex: 1 }}>
-              <ThemedTextInput label='Título' placeholder='Título' style={{ marginBottom: 10 }} />
+            <ThemedView secondaryView={true} style={styles.viewModal}>
+              <ThemedText type="subtitle">Adicionar Tarefa</ThemedText>
+              <ThemedTextInput label='Título' placeholder='Título' style={{ marginBottom: 5 }} />
               <ThemedTextInput label='Descrição' placeholder='Descrição' />
-              <Button onPress={() => setVisibleAddTask(false)}>Fechar</Button>
+              <ThemedButton onPress={() => setVisibleAddTask(false)}>Fechar</ThemedButton>
             </ThemedView>
           </Modal>
         )
       }
-      <ImageBackground source={require('@/assets/images/partial-react-logo.png')} style={styles.imageBackground}>
-        <SafeAreaView style={styles.safeAreaView} edges={['top']}>
-          <View style={styles.viewRow}>
-            <ThemedText type="title">Tarefas</ThemedText>
-          </View>
-          <ThemedView style={styles.container}>
-            <ThemedFAB
-              icon="plus"
-              style={styles.fab}
-              onPress={() => setVisibleAddTask(true)}
-            />
-          </ThemedView>
-        </SafeAreaView>
-      </ImageBackground>
+      <SafeAreaView style={styles.safeAreaView} edges={['top']}>
+        <View style={styles.viewRow}>
+          <ThemedText type="title">Tarefas</ThemedText>
+        </View>
+        <ThemedView style={styles.container} secondaryView={true}>
+          <ThemedFAB
+            icon="plus"
+            style={styles.fab}
+            onPress={() => setVisibleAddTask(true)}
+          />
+        </ThemedView>
+      </SafeAreaView>
     </>
-    // <ParallaxScrollView
-    //   headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-    //   headerImage={
-    //     <Image
-    //       source={require('@/assets/images/partial-react-logo.png')}
-    //       style={styles.reactLogo}
-    //     />
-    //   }>
-    //   <ThemedView style={styles.titleContainer}>
-    //     <ThemedText type="title">Welcome!</ThemedText>
-    //     <HelloWave />
-    //   </ThemedView>
-    //   <ThemedView style={styles.stepContainer}>
-    //     <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-    //     <ThemedText>
-    //       Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-    //       Press{' '}
-    //       <ThemedText type="defaultSemiBold">
-    //         {Platform.select({ ios: 'cmd + d', android: 'cmd + m' })}
-    //       </ThemedText>{' '}
-    //       to open developer tools.
-    //     </ThemedText>
-    //   </ThemedView>
-    //   <ThemedView style={styles.stepContainer}>
-    //     <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-    //     <ThemedText>
-    //       Tap the Explore tab to learn more about what's included in this starter app.
-    //     </ThemedText>
-    //   </ThemedView>
-    //   <ThemedView style={styles.stepContainer}>
-    //     <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-    //     <ThemedText>
-    //       When you're ready, run{' '}
-    //       <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-    //       <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-    //       <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-    //       <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-    //     </ThemedText>
-    //   </ThemedView>
-    // </ParallaxScrollView>
   );
 }
 
 const styles = StyleSheet.create({
   safeAreaView: {
-    flex: 1
+    flex: 1,
+    backgroundColor: '#121212',
+    padding: 15
   },
   imageBackground: {
     flex: 1,
@@ -110,8 +72,12 @@ const styles = StyleSheet.create({
   },
   modalBackground: {
     flex: 2,
-    backgroundColor: 'rgba(0, 0, 0, 0.4)',
+    backgroundColor: 'rgba(0, 0, 0, 0.7)',
     justifyContent: 'center',
     alignItems: 'center',
   },
+  viewModal: {
+    flex: 1,
+    padding: 20,
+  }
 });
