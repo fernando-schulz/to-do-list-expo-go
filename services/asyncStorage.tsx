@@ -1,17 +1,53 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { sendAlert } from "./messagingCenter";
 
-const setTask = async (task: Task): Promise<void> => {
+const ID_COUNTER_KEY = '@task_id_counter';
+const TASKS_KEY = '@tasks_key';
+
+export const getNextId = async (): Promise<number> => {
     try {
-        await AsyncStorage.setItem(`task:${task.id}`, JSON.stringify(task));
+        const currentId = await AsyncStorage.getItem(ID_COUNTER_KEY);
+        const nextId = currentId != null ? parseInt(currentId, 10) + 1 : 1;
+        await AsyncStorage.setItem(ID_COUNTER_KEY, nextId.toString());
+        return nextId;
+    } catch (error) {
+        sendAlert('Erro', `Não foi possível gerar um novo ID.\n\nLog: ${error}`);
+        throw error;
+    }
+};
+
+export const setTask = async (task: Task): Promise<void> => {
+    try {
+        const tasks = await getTasks();
+        if (!task.id) {
+            task.id = await getNextId();
+        }
+        const updatedTasks = [...tasks, task];
+        await AsyncStorage.setItem(TASKS_KEY, JSON.stringify(updatedTasks));
     } catch (error) {
         sendAlert('Erro', `Não foi possível salvar a tarefa.\n\nLog: ${error}`);
     }
-}
+};
 
-const getTasks = async (): Promise<Task[]> => {
+export const setTaskCompleted = async (taskId: number, completed: boolean, date: Date): Promise<void> => {
     try {
-        const jsonValue = await AsyncStorage.getItem('@tasks_key');
+        const tasks = await getTasks();
+        const updatedTasks = tasks.map(task => {
+            if (task.id === taskId) {
+                task.completed = completed;
+                task.date = date;
+            }
+            return task;
+        });
+        await AsyncStorage.setItem(TASKS_KEY, JSON.stringify(updatedTasks));
+    } catch (error) {
+        sendAlert('Erro', `Não foi possível atualizar a tarefa.\n\nLog: ${error}`);
+    }
+};
+
+export const getTasks = async (): Promise<Task[]> => {
+    try {
+        const jsonValue = await AsyncStorage.getItem(TASKS_KEY);
         return jsonValue != null ? JSON.parse(jsonValue) as Task[] : [];
     } catch (error) {
         sendAlert('Erro', `Não foi possível carregar as tarefas.\n\nLog: ${error}`);
@@ -19,7 +55,7 @@ const getTasks = async (): Promise<Task[]> => {
     }
 };
 
-const getPendingTasks = async (): Promise<Task[]> => {
+export const getPendingTasks = async (): Promise<Task[]> => {
     try {
         const tasks = await getTasks();
         return tasks?.filter(task => !task.completed);
@@ -29,7 +65,7 @@ const getPendingTasks = async (): Promise<Task[]> => {
     }
 }
 
-const getCompletedTasks = async (): Promise<Task[]> => {
+export const getCompletedTasks = async (): Promise<Task[]> => {
     try {
         const tasks = await getTasks();
         return tasks?.filter(task => task.completed);

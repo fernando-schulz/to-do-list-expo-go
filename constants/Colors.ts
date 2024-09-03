@@ -51,6 +51,12 @@ export const Colors = {
     //Button
     ButtonBackground: primaryDetailsLight,
     ButtonTextColor: secondaryDetailsLight,
+
+    //IconButton
+    selectedIconColor: backgroundSecondaryLight,
+    selectedBackgroundColor: secondaryDark,
+    unselectedIconColor: primaryDetailsLight,
+    unselectedBackgroundColor: secondaryLight,    
   },
   dark: {
     title: primaryDetailsDark,
@@ -76,5 +82,11 @@ export const Colors = {
     //Button
     ButtonBackground: backgroundSecondaryDark,
     ButtonTextColor: primaryDetailsDark,
+
+    //IconButton
+    selectedIconColor: backgroundSecondaryDark,
+    selectedBackgroundColor: primaryDetailsDark,
+    unselectedIconColor: backgroundSecondaryDark,
+    unselectedBackgroundColor: secondaryLight,
   },
 };
