@@ -1,17 +1,18 @@
-import { Image, StyleSheet, ImageBackground, View, Modal, Alert, FlatList } from 'react-native';
-
-import { HelloWave } from '@/components/HelloWave';
-import ParallaxScrollView from '@/components/ParallaxScrollView';
+import { StyleSheet, View, Modal, Alert, FlatList, Image } from 'react-native';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { ThemedFAB } from '@/components/ThemedFAB';
 import { useEffect, useState } from 'react';
-import { Button } from 'react-native-paper';
+import { Divider } from 'react-native-paper';
 import { ThemedTextInput } from '@/components/ThemedTextInput';
 import { ThemedButton } from '@/components/ThemedButton';
-import { getCompletedTasks, getNextId, getPendingTasks, getTasks, setTask, setTaskCompleted } from '@/services/asyncStorage';
+import { deleteTask, getCompletedTasks, getNextId, getPendingTasks, getTasks, setTask, setTaskCompleted } from '@/services/asyncStorage';
 import { ThemedIconButton } from '@/components/ThemedIconButton';
+import { Colors } from '@/constants/Colors';
+import Animated, { Layout, FadeIn, FadeOut } from 'react-native-reanimated';
+
+const imgTask = require('../../assets/images/tasks.png');
 
 export default function HomeScreen() {
 
@@ -20,22 +21,21 @@ export default function HomeScreen() {
   const [descriptionTask, setDescriptionTask] = useState('');
   const [pendingTasks, setPendingTasks] = useState<Task[]>([]);
   const [completedTasks, setCompletedTasks] = useState<Task[]>([]);
-  const [tasks, setTasks] = useState<Task[]>([]);
 
   useEffect(() => {
     carregarTarefas();
   }, []);
 
-  // useEffect(() => {
-  //   setTasks([...pendingTasks, ...completedTasks]);
-  // }, [pendingTasks, completedTasks]);
-
-  const carregarTarefas = async () => {
+  const carregarTarefas = async (completar = true) => {
     const tempPendingTasks = await getPendingTasks();
     const tempCompletedTasks = await getCompletedTasks();
-    setTasks([...tempPendingTasks, ...tempCompletedTasks]);
-    //setPendingTasks(tempPendingTasks);
-    //setCompletedTasks(tempCompletedTasks);
+    if (completar) {
+      setPendingTasks(tempPendingTasks);
+      setCompletedTasks(tempCompletedTasks);
+    } else {
+      setCompletedTasks(tempCompletedTasks);
+      setPendingTasks(tempPendingTasks);
+    }
   }
 
   const salvarTarefa = async () => {
@@ -58,73 +58,114 @@ export default function HomeScreen() {
     }
   }
 
+  const excluirTarefa = async (id: number) => {
+    await deleteTask(id);
+    carregarTarefas();
+  }
+
+  const setAsCompleted = async (taskId: number, completed: boolean) => {
+    await setTaskCompleted(taskId, completed, new Date());
+    carregarTarefas(completed);
+  };
+
   const renderTask = (task: Task) => {
     return (
-      <View key={task.id} style={styles.viewItem}>
-        <View key={task.id} style={styles.viewLeft}>
+      <Animated.View
+        key={task.id}
+        style={styles.viewRow}
+        entering={FadeIn}
+        exiting={FadeOut}
+        layout={Layout.springify()}
+      >
+        <View key={task.id} style={[styles.viewLeft]}>
           <ThemedText type="subtitle" numberOfLines={1}>{task.title}</ThemedText>
           <ThemedText type="description" numberOfLines={2}>{task.description}</ThemedText>
         </View>
         <View style={styles.viewRight}>
           <ThemedIconButton
+            icon="trash-can-outline"
+            selected={task.completed}
+            size={20}
+            onPress={async () => {
+              await excluirTarefa(task.id);
+            }}
+            iconColor={Colors.fireBrick}
+          />
+          <ThemedIconButton
             icon="check-bold"
             mode='contained'
-            size={12}
+            size={10}
             selected={task.completed}
             onPress={async () => {
-              await setTaskCompleted(task.id, !task.completed, new Date());
-              carregarTarefas();
+              await setAsCompleted(task.id, !task.completed);
             }}
           />
         </View>
-      </View>
+      </Animated.View>
     );
+  }
+
+  const renderModal = () => {
+    return <Modal animationType='slide' visible={visibleAddTask} transparent={true}>
+      <View style={styles.modalBackground} />
+      <ThemedView secondaryView={true} style={styles.viewModal}>
+        <ThemedText type="subtitle">Adicionar Tarefa</ThemedText>
+        <ThemedTextInput
+          label='Título'
+          placeholder='Informe o Título'
+          style={{ marginBottom: 5 }}
+          value={titleTask}
+          onChangeText={(value) => setTitleTask(value)}
+        />
+        <ThemedTextInput
+          label='Descrição'
+          placeholder='Informe a Descrição'
+          value={descriptionTask}
+          onChangeText={(value) => setDescriptionTask(value)}
+        />
+        <ThemedButton onPress={() => salvarTarefa()}>Salvar</ThemedButton>
+        <ThemedButton onPress={() => setVisibleAddTask(false)}>Fechar</ThemedButton>
+      </ThemedView>
+    </Modal>
   }
 
   return (
     <>
       {
-        visibleAddTask && (
-          <Modal animationType='slide' visible={visibleAddTask} transparent={true}>
-            <View style={styles.modalBackground} />
-            <ThemedView secondaryView={true} style={styles.viewModal}>
-              <ThemedText type="subtitle">Adicionar Tarefa</ThemedText>
-              <ThemedTextInput
-                label='Título'
-                placeholder='Informe o Título'
-                style={{ marginBottom: 5 }}
-                value={titleTask}
-                onChangeText={(value) => setTitleTask(value)}
-              />
-              <ThemedTextInput
-                label='Descrição'
-                placeholder='Informe a Descrição'
-                value={descriptionTask}
-                onChangeText={(value) => setDescriptionTask(value)}
-              />
-              <ThemedButton onPress={() => salvarTarefa()}>Salvar</ThemedButton>
-              <ThemedButton onPress={() => setVisibleAddTask(false)}>Fechar</ThemedButton>
-            </ThemedView>
-          </Modal>
-        )
+        visibleAddTask && renderModal()
       }
-      <SafeAreaView style={styles.safeAreaView} edges={['top']}>
+      <ThemedView style={styles.container}>
         <View style={styles.viewRow}>
-          <ThemedText type="title">Tarefas</ThemedText>
+          <Image source={imgTask} style={styles.imgHeader} />
         </View>
-        <ThemedView style={styles.container} secondaryView={true}>
-          <FlatList
-            data={tasks}
-            keyExtractor={item => item.id.toString()}
-            renderItem={({ item }) => renderTask(item)}
-          />
+        <ThemedView style={styles.viewTasks} secondaryView={true}>
+          {pendingTasks?.length > 0 &&
+            <FlatList
+              style={styles.flatList}
+              data={pendingTasks}
+              keyExtractor={item => item.id.toString()}
+              renderItem={({ item }) => renderTask(item)}
+            />
+          }
+          {completedTasks?.length > 0 &&
+            <>
+              <ThemedText type='description'>Tarefas Completadas</ThemedText>
+              <Divider style={styles.divider} />
+              <FlatList
+                style={styles.flatList}
+                data={completedTasks}
+                keyExtractor={item => item.id.toString()}
+                renderItem={({ item }) => renderTask(item)}
+              />
+            </>
+          }
           <ThemedFAB
             icon="plus"
             style={styles.fab}
             onPress={() => setVisibleAddTask(true)}
           />
         </ThemedView>
-      </SafeAreaView>
+      </ThemedView>
     </>
   );
 }
@@ -135,14 +176,15 @@ const styles = StyleSheet.create({
     backgroundColor: '#121212',
     padding: 15
   },
-  imageBackground: {
-    flex: 1,
-    padding: 12,
-  },
   container: {
     flex: 1,
-    borderRadius: 10,
+  },
+  viewTasks: {
+    flex: 1,
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
     elevation: 6,
+    padding: 12,
   },
   viewRow: {
     flexDirection: 'row',
@@ -163,19 +205,26 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 20,
   },
-  viewItem: {
-    paddingHorizontal: 10,
-    paddingTop: 5,
-    flexDirection: 'row'
-  },
   viewLeft: {
     flex: 1,
     alignItems: 'flex-start',
     justifyContent: 'center'
   },
   viewRight: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  flatList: {
     flex: 1,
-    alignItems: 'flex-end',
-    justifyContent: 'center'
+  },
+  divider: {
+    marginTop: 2,
+    marginBottom: 10,
+  },
+  imgHeader: {
+    width: 200,
+    height: 200,
+    //marginTop: 10,
+    //marginBottom: 10
   }
 });

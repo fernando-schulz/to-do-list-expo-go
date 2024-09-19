@@ -45,6 +45,16 @@ export const setTaskCompleted = async (taskId: number, completed: boolean, date:
     }
 };
 
+export const deleteTask = async (taskId: number): Promise<void> => {
+    try {
+        const tasks = await getTasks();
+        const updatedTasks = tasks.filter(task => task.id !== taskId);
+        await AsyncStorage.setItem(TASKS_KEY, JSON.stringify(updatedTasks));
+    } catch (error) {
+        sendAlert('Erro', `Não foi possível excluir a tarefa.\n\nLog: ${error}`);
+    }
+};
+
 export const getTasks = async (): Promise<Task[]> => {
     try {
         const jsonValue = await AsyncStorage.getItem(TASKS_KEY);
@@ -58,7 +68,9 @@ export const getTasks = async (): Promise<Task[]> => {
 export const getPendingTasks = async (): Promise<Task[]> => {
     try {
         const tasks = await getTasks();
-        return tasks?.filter(task => !task.completed);
+        return tasks
+            ?.filter(task => !task.completed)
+            .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
     } catch (error) {
         sendAlert('Erro', `Não foi possível carregar as tarefas pendentes.\n\nLog: ${error}`);
         return [];
@@ -68,7 +80,9 @@ export const getPendingTasks = async (): Promise<Task[]> => {
 export const getCompletedTasks = async (): Promise<Task[]> => {
     try {
         const tasks = await getTasks();
-        return tasks?.filter(task => task.completed);
+        return tasks
+            ?.filter(task => task.completed)
+            .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
     } catch (error) {
         sendAlert('Erro', `Não foi possível carregar as tarefas concluídas.\n\nLog: ${error}`);
         return [];

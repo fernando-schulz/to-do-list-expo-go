@@ -5,8 +5,10 @@
 
 import { Button } from "react-native-paper";
 
+//const primaryDark = '#121212'; //cinza escuro
+//const secondaryDark = '#1C1C1C'; //cinza menos escuro
 const primaryDark = '#121212'; //cinza escuro
-const secondaryDark = '#1C1C1C'; //cinza menos escuro
+const secondaryDark = '#3D3C47'; //cinza menos escuro
 const primaryDetailsDark = '#BB86FC'; //roxo suave
 const secondaryDetailsDark = '#CF6679'; // tom rosa/vermelho
 const backgroundSecondaryDark = '#03DAC6'; // ciano/verde-água
@@ -27,6 +29,8 @@ const secondaryColorLight = '#11181C';
 const secondaryColorDark = '#ECEDEE';
 
 export const Colors = {
+  fireBrick: '#B22222',
+
   light: {
     title: primaryDetailsLight,
     subtitle: backgroundSecondaryLight,
@@ -56,7 +60,7 @@ export const Colors = {
     selectedIconColor: backgroundSecondaryLight,
     selectedBackgroundColor: secondaryDark,
     unselectedIconColor: primaryDetailsLight,
-    unselectedBackgroundColor: secondaryLight,    
+    unselectedBackgroundColor: secondaryLight,
   },
   dark: {
     title: primaryDetailsDark,
