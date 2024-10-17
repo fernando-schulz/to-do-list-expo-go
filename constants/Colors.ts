@@ -2,9 +2,7 @@
 const primaryDark = '#121212'; //cinza escuro
 const secondaryDark = '#3D3C47'; //cinza menos escuro
 const primaryDetailsDark = '#e35241'; //laranja/vermelho
-//const secondaryDetailsDark = '#688a7c'; // Verde escuro
 const secondaryDetailsDark = '#e49183'; // Verde escuro
-//const backgroundSecondaryDark = '#becec4'; // Verde claro
 
 
 //LIGHT THEME
@@ -14,12 +12,8 @@ const primaryDetailsLight = '#00796B'; //verde escuro puxando para azul
 const secondaryDetailsLight = '#212121'; // cinza escuro
 const backgroundSecondaryLight = '#009688'; // verde-água
 
-
-
-
 const tintColorLight = '#0a7ea4';
 const tintColorDark = '#fff';
-//const tintColorDark = '#4e4d4a'
 const secondaryColorLight = '#11181C';
 const secondaryColorDark = '#ECEDEE';
 

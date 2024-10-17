@@ -12,9 +12,9 @@ import { ThemedIconButton } from '@/components/ThemedIconButton';
 import { Colors } from '@/constants/Colors';
 import Animated, { Layout, FadeIn, FadeOut } from 'react-native-reanimated';
 
-const imgTask = require('../../assets/images/tasks.png');
+const imgTask = require('../assets/images/tasks.png');
 
-export default function HomeScreen() {
+export default function TasksScreen() {
 
   const [visibleAddTask, setVisibleAddTask] = useState(false);
   const [titleTask, setTitleTask] = useState('');
@@ -88,6 +88,7 @@ export default function HomeScreen() {
         entering={FadeIn}
         exiting={FadeOut}
         layout={Layout.springify()}
+        style={styles.viewTask}
       >
         <TouchableOpacity style={styles.viewRow} onLongPress={() => excluirTarefa(task.id)}>
           <View key={task.id} style={[styles.viewLeft]}>
@@ -95,15 +96,6 @@ export default function HomeScreen() {
             <ThemedText type="description" numberOfLines={2}>{task.description}</ThemedText>
           </View>
           <View style={styles.viewRight}>
-            {/* <ThemedIconButton
-              icon="trash-can-outline"
-              selected={task.completed}
-              size={20}
-              onPress={async () => {
-                await excluirTarefa(task.id);
-              }}
-              iconColor={Colors.fireBrick}
-            /> */}
             <ThemedIconButton
               icon="check-bold"
               mode='contained'
@@ -121,7 +113,7 @@ export default function HomeScreen() {
 
   const renderModal = () => {
     return <Modal animationType='slide' visible={visibleAddTask} transparent={true}>
-      <View style={styles.modalBackground} />
+      <TouchableOpacity onPress={() => setVisibleAddTask(false)} style={styles.modalBackground} />
       <ThemedView secondaryView={true} style={styles.viewModal}>
         <ThemedText type="subtitle">Adicionar Tarefa</ThemedText>
         <ThemedTextInput
@@ -138,8 +130,9 @@ export default function HomeScreen() {
           value={descriptionTask}
           onChangeText={(value) => setDescriptionTask(value)}
         />
-        <ThemedButton onPress={() => salvarTarefa()}>Salvar</ThemedButton>
-        <ThemedButton onPress={() => setVisibleAddTask(false)}>Fechar</ThemedButton>
+        <View style={styles.viewBtnSalvar}>
+          <ThemedButton style={styles.btnSalvar} onPress={() => salvarTarefa()}>Salvar</ThemedButton>
+        </View>
       </ThemedView>
     </Modal>
   }
@@ -257,5 +250,17 @@ const styles = StyleSheet.create({
   },
   textInputModal: {
     marginBottom: 5,
+  },
+  btnSalvar: {
+    width: 150,
+    height: 40,
+  },
+  viewBtnSalvar: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 15,
+  },
+  viewTask: {
+    padding: 3,
   }
 });
