@@ -1,18 +1,13 @@
-/**
- * Below are the colors that are used in the app. The colors are defined in the light and dark mode.
- * There are many other ways to style your app. For example, [Nativewind](https://www.nativewind.dev/), [Tamagui](https://tamagui.dev/), [unistyles](https://reactnativeunistyles.vercel.app), etc.
- */
-
-import { Button } from "react-native-paper";
-
-//const primaryDark = '#121212'; //cinza escuro
-//const secondaryDark = '#1C1C1C'; //cinza menos escuro
+//DARK THEME
 const primaryDark = '#121212'; //cinza escuro
 const secondaryDark = '#3D3C47'; //cinza menos escuro
-const primaryDetailsDark = '#BB86FC'; //roxo suave
-const secondaryDetailsDark = '#CF6679'; // tom rosa/vermelho
-const backgroundSecondaryDark = '#03DAC6'; // ciano/verde-água
+const primaryDetailsDark = '#e35241'; //laranja/vermelho
+//const secondaryDetailsDark = '#688a7c'; // Verde escuro
+const secondaryDetailsDark = '#e49183'; // Verde escuro
+//const backgroundSecondaryDark = '#becec4'; // Verde claro
 
+
+//LIGHT THEME
 const primaryLight = '#fff'; //branco
 const secondaryLight = '#F5F5F5'; //cinza bem claro
 const primaryDetailsLight = '#00796B'; //verde escuro puxando para azul
@@ -65,32 +60,32 @@ export const Colors = {
   dark: {
     title: primaryDetailsDark,
     subtitle: secondaryDetailsDark,
-    text: '#fff',
+    text: tintColorDark,
     background: primaryDark,
     secondaryBackground: secondaryDark,
 
     tint: tintColorDark,
-    icon: '#9BA1A6',
+    //icon: '#9BA1A6',
     tabIconDefault: '#9BA1A6',
-    tabIconSelected: tintColorDark,
+    tabIconSelected: primaryDetailsDark,
 
-    fabBackground: backgroundSecondaryDark,
-    fabIconColor: secondaryDetailsDark,
+    fabBackground: primaryDetailsDark,
+    fabIconColor: tintColorDark,
 
     //TextInput
-    TextInputBackground: primaryDark,
+    TextInputBackground: secondaryDark,
     TextInputTextColor: primaryDetailsDark,
     TextInputActiveOutlineColor: primaryDetailsDark,
     TextInputOutlineColor: secondaryDetailsDark,
 
     //Button
-    ButtonBackground: backgroundSecondaryDark,
-    ButtonTextColor: primaryDetailsDark,
+    ButtonBackground: primaryDetailsDark,
+    ButtonTextColor: tintColorDark,
 
     //IconButton
-    selectedIconColor: backgroundSecondaryDark,
+    selectedIconColor: tintColorDark,
     selectedBackgroundColor: primaryDetailsDark,
-    unselectedIconColor: backgroundSecondaryDark,
+    unselectedIconColor: secondaryDetailsDark,
     unselectedBackgroundColor: secondaryLight,
   },
 };

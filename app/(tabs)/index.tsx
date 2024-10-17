@@ -1,4 +1,4 @@
-import { StyleSheet, View, Modal, Alert, FlatList, Image } from 'react-native';
+import { StyleSheet, View, Modal, Alert, FlatList, Image, TouchableOpacity } from 'react-native';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -59,8 +59,21 @@ export default function HomeScreen() {
   }
 
   const excluirTarefa = async (id: number) => {
-    await deleteTask(id);
-    carregarTarefas();
+
+    Alert.alert('Exclusão', 'Deseja excluir essa tarefa?', [
+      {
+        text: 'Fechar',
+        onPress: () => { },
+        style: 'cancel'
+      },
+      {
+        text: 'Excluir',
+        onPress: async () => {
+          await deleteTask(id);
+          carregarTarefas();
+        }
+      }
+    ])
   }
 
   const setAsCompleted = async (taskId: number, completed: boolean) => {
@@ -72,35 +85,36 @@ export default function HomeScreen() {
     return (
       <Animated.View
         key={task.id}
-        style={styles.viewRow}
         entering={FadeIn}
         exiting={FadeOut}
         layout={Layout.springify()}
       >
-        <View key={task.id} style={[styles.viewLeft]}>
-          <ThemedText type="subtitle" numberOfLines={1}>{task.title}</ThemedText>
-          <ThemedText type="description" numberOfLines={2}>{task.description}</ThemedText>
-        </View>
-        <View style={styles.viewRight}>
-          <ThemedIconButton
-            icon="trash-can-outline"
-            selected={task.completed}
-            size={20}
-            onPress={async () => {
-              await excluirTarefa(task.id);
-            }}
-            iconColor={Colors.fireBrick}
-          />
-          <ThemedIconButton
-            icon="check-bold"
-            mode='contained'
-            size={10}
-            selected={task.completed}
-            onPress={async () => {
-              await setAsCompleted(task.id, !task.completed);
-            }}
-          />
-        </View>
+        <TouchableOpacity style={styles.viewRow} onLongPress={() => excluirTarefa(task.id)}>
+          <View key={task.id} style={[styles.viewLeft]}>
+            <ThemedText type="subtitle" numberOfLines={1}>{task.title}</ThemedText>
+            <ThemedText type="description" numberOfLines={2}>{task.description}</ThemedText>
+          </View>
+          <View style={styles.viewRight}>
+            {/* <ThemedIconButton
+              icon="trash-can-outline"
+              selected={task.completed}
+              size={20}
+              onPress={async () => {
+                await excluirTarefa(task.id);
+              }}
+              iconColor={Colors.fireBrick}
+            /> */}
+            <ThemedIconButton
+              icon="check-bold"
+              mode='contained'
+              size={10}
+              selected={task.completed}
+              onPress={async () => {
+                await setAsCompleted(task.id, !task.completed);
+              }}
+            />
+          </View>
+        </TouchableOpacity>
       </Animated.View>
     );
   }
@@ -113,13 +127,14 @@ export default function HomeScreen() {
         <ThemedTextInput
           label='Título'
           placeholder='Informe o Título'
-          style={{ marginBottom: 5 }}
+          style={styles.textInputModal}
           value={titleTask}
           onChangeText={(value) => setTitleTask(value)}
         />
         <ThemedTextInput
           label='Descrição'
           placeholder='Informe a Descrição'
+          style={styles.textInputModal}
           value={descriptionTask}
           onChangeText={(value) => setDescriptionTask(value)}
         />
@@ -136,7 +151,12 @@ export default function HomeScreen() {
       }
       <ThemedView style={styles.container}>
         <View style={styles.viewRow}>
-          <Image source={imgTask} style={styles.imgHeader} />
+          <View style={styles.viewHeader}>
+            <Image source={imgTask} style={styles.imgHeader} />
+          </View>
+          <View style={styles.viewTitle}>
+            <ThemedText type='title'>Tarefas</ThemedText>
+          </View>
         </View>
         <ThemedView style={styles.viewTasks} secondaryView={true}>
           {pendingTasks?.length > 0 &&
@@ -149,7 +169,7 @@ export default function HomeScreen() {
           }
           {completedTasks?.length > 0 &&
             <>
-              <ThemedText type='description'>Tarefas Completadas</ThemedText>
+              <ThemedText type='defaultSemiBold'>Tarefas Completadas</ThemedText>
               <Divider style={styles.divider} />
               <FlatList
                 style={styles.flatList}
@@ -224,7 +244,18 @@ const styles = StyleSheet.create({
   imgHeader: {
     width: 200,
     height: 200,
-    //marginTop: 10,
-    //marginBottom: 10
+  },
+  viewHeader: {
+    flex: 1,
+    paddingVertical: 10,
+    paddingLeft: 20,
+  },
+  viewTitle: {
+    paddingVertical: 10,
+    paddingRight: 20,
+    justifyContent: 'flex-end'
+  },
+  textInputModal: {
+    marginBottom: 5,
   }
 });
