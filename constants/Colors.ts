@@ -1,84 +1,82 @@
 //DARK THEME
-const primaryDark = '#121212'; //cinza escuro
-const secondaryDark = '#3D3C47'; //cinza menos escuro
-const primaryDetailsDark = '#e35241'; //laranja/vermelho
-const secondaryDetailsDark = '#e49183'; // Verde escuro
+const primaryDark = '#322B54';
+const secondaryDark = '#413E60';
+const primaryDetailsDark = '#cfab89';
+const secondaryDetailsDark = '#bc5446';
+const transparencyDark = 'rgba(255, 255, 255, 0.3)'; //preto com transparência
+const tintColorDark = '#fff';
 
 
 //LIGHT THEME
-const primaryLight = '#fff'; //branco
-const secondaryLight = '#F5F5F5'; //cinza bem claro
-const primaryDetailsLight = '#00796B'; //verde escuro puxando para azul
-const secondaryDetailsLight = '#212121'; // cinza escuro
-const backgroundSecondaryLight = '#009688'; // verde-água
+const primaryLight = '#F5F5F5'; //branco
+const secondaryLight = '#e6e6e6';
+const primaryDetailsLight = '#322b54'; //verde escuro puxando para azul
+const secondaryDetailsLight = '#46406c'; // cinza escuro
+const transparencyLight = 'rgba(0, 0, 0, 0.3)'; //preto com transparência
 
-const tintColorLight = '#0a7ea4';
-const tintColorDark = '#fff';
-const secondaryColorLight = '#11181C';
-const secondaryColorDark = '#ECEDEE';
+const tintColorLight = '#3D3C47';
+const tintButtonColorLight = '#fff';
 
 export const Colors = {
   fireBrick: '#B22222',
 
   light: {
     title: primaryDetailsLight,
-    subtitle: backgroundSecondaryLight,
-    text: secondaryDetailsLight,
+    subtitle: secondaryDetailsLight,
+    text: tintColorLight,
     background: primaryLight,
     secondaryBackground: secondaryLight,
 
-    tint: primaryDetailsLight,
-    icon: '#687076',
-    tabIconDefault: '#687076',
-    tabIconSelected: tintColorLight,
+    //tint: primaryDetailsLight,
+    //tabIconDefault: '#687076',
+    //tabIconSelected: tintColorLight,
 
-    fabBackground: backgroundSecondaryLight,
-    fabIconColor: secondaryDetailsLight,
+    fabBackground: secondaryDetailsLight,
+    fabIconColor: tintButtonColorLight,
 
     //TextInput
-    TextInputBackground: primaryLight,
-    TextInputTextColor: secondaryDetailsLight,
+    TextInputBackground: secondaryLight,
+    TextInputTextColor: tintColorLight,
     TextInputActiveOutlineColor: primaryDetailsLight,
-    TextInputOutlineColor: secondaryDetailsLight,
+    TextInputOutlineColor: transparencyLight,
 
     //Button
     ButtonBackground: primaryDetailsLight,
-    ButtonTextColor: secondaryDetailsLight,
+    ButtonTextColor: tintButtonColorLight,
 
     //IconButton
-    selectedIconColor: backgroundSecondaryLight,
-    selectedBackgroundColor: secondaryDark,
-    unselectedIconColor: primaryDetailsLight,
-    unselectedBackgroundColor: secondaryLight,
+    selectedIconColor: tintButtonColorLight,
+    selectedBackgroundColor: secondaryDetailsLight,
+    unselectedIconColor: secondaryDetailsLight,
+    unselectedBackgroundColor: tintButtonColorLight,
   },
   dark: {
     title: primaryDetailsDark,
-    subtitle: secondaryDetailsDark,
+    subtitle: primaryDetailsDark,
     text: tintColorDark,
     background: primaryDark,
     secondaryBackground: secondaryDark,
 
-    tint: tintColorDark,
-    //icon: '#9BA1A6',
-    tabIconDefault: '#9BA1A6',
-    tabIconSelected: primaryDetailsDark,
+    //tint: tintColorDark,
+    //tabIconDefault: '#9BA1A6',
+    //tabIconSelected: primaryDetailsDark,
 
-    fabBackground: primaryDetailsDark,
+    fabBackground: secondaryDetailsDark,
     fabIconColor: tintColorDark,
 
     //TextInput
     TextInputBackground: secondaryDark,
-    TextInputTextColor: primaryDetailsDark,
+    TextInputTextColor: tintColorDark,
     TextInputActiveOutlineColor: primaryDetailsDark,
-    TextInputOutlineColor: secondaryDetailsDark,
+    TextInputOutlineColor: transparencyDark,
 
     //Button
-    ButtonBackground: primaryDetailsDark,
+    ButtonBackground: secondaryDetailsDark,
     ButtonTextColor: tintColorDark,
 
     //IconButton
     selectedIconColor: tintColorDark,
-    selectedBackgroundColor: primaryDetailsDark,
+    selectedBackgroundColor: secondaryDetailsDark,
     unselectedIconColor: secondaryDetailsDark,
     unselectedBackgroundColor: secondaryLight,
   },

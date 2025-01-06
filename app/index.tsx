@@ -11,6 +11,7 @@ import { deleteTask, getCompletedTasks, getNextId, getPendingTasks, getTasks, se
 import { ThemedIconButton } from '@/components/ThemedIconButton';
 import { Colors } from '@/constants/Colors';
 import Animated, { Layout, FadeIn, FadeOut } from 'react-native-reanimated';
+import React from 'react';
 
 const imgTask = require('../assets/images/tasks.png');
 
@@ -162,7 +163,7 @@ export default function TasksScreen() {
           }
           {completedTasks?.length > 0 &&
             <>
-              <ThemedText type='defaultSemiBold'>Tarefas Completadas</ThemedText>
+              <ThemedText style={{ marginTop: 10 }} type='defaultSemiBold'>Tarefas Completadas</ThemedText>
               <Divider style={styles.divider} />
               <FlatList
                 style={styles.flatList}
