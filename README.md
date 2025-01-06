@@ -23,9 +23,9 @@ Este projeto **não possui dependências externas**, como web services. Basta ro
 ## 📸 Imagens
 
 <p align="center">
-  <img src="to-do-list-expo-go/assets/imagens-git/app-apresentacao.gif" alt="GIF do App" width="300" style="margin-right: 20px;"/>
-  <img src="to-do-list-expo-go/assets/imagens-git/app-dark.png" alt="Tela Principal" width="300" style="margin-right: 20px;"/>
-  <img src="to-do-list-expo-go/assets/imagens-git/app-light.png" alt="Adição de Tarefa" width="300"/>
+  <img src="assets/imagens-git/app-apresentacao.gif" alt="GIF do App" width="300" style="margin-right: 20px;"/>
+  <img src="assets/imagens-git/app-dark.png" alt="Tela Principal" width="300" style="margin-right: 20px;"/>
+  <img src="assets/imagens-git/app-light.png" alt="Adição de Tarefa" width="300"/>
 </p>
 
 ## 🚀 Como Rodar o Projeto
