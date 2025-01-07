@@ -20,7 +20,7 @@ Projeto de um **app To-do List** implementado com **React Native** utilizando a 
 ## 📦 Dependências Externas
 Este projeto **não possui dependências externas**, como web services. Basta rodar o projeto diretamente para utilizá-lo.
 
-## 📸 Imagens
+## 📸 Imagens Android
 
 <p align="center">
   <img src="assets/imagens-git/app-apresentacao.gif" alt="GIF do App" width="300" style="margin-right: 20px;"/>
